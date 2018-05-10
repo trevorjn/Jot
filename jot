@@ -1,6 +1,10 @@
 #!/bin/bash
 
 
+# Notes are stored in $JOTPATH, organized by topic.
+# Each topic is represented by a regular file containing all notes on that topic.
+
+
 # No args case
 if [ $# -eq 0 ]; then
 	echo "-Jot: no-arg functionality not yet implemented" 1>&2
@@ -9,9 +13,24 @@ fi
 
 
 # Var args case
-echo "-Jot: var-arg functionality not yet implemented" 1>&2
+note_content=""
+
 while [ $# -gt 0 ]; do
+	case $1 in
+	-*)
+		echo "-Jot: flag arguments not yet implemented" 1>&2;;
+	*)
+		note_content="${note_content} $1";;
+	esac
+
 	shift
 done
+
+if [ -n "$note_content" ]; then
+	topic=$(date +%F) # use current date as default folder name
+	topic_path=$JOTPATH/$topic
+	touch $topic_path # ensure topic file exists
+	echo $note_content >> $topic_path # append note_content to topic file
+fi
 
 exit 0
