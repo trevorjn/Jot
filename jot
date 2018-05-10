@@ -1,0 +1,17 @@
+#!/bin/bash
+
+
+# No args case
+if [ $# -eq 0 ]; then
+	echo "-Jot: no-arg functionality not yet implemented" 1>&2
+	exit 0
+fi
+
+
+# Var args case
+echo "-Jot: var-arg functionality not yet implemented" 1>&2
+while [ $# -gt 0 ]; do
+	shift
+done
+
+exit 0
