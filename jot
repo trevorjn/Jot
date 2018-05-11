@@ -4,10 +4,25 @@
 # Notes are stored in $JOTPATH, organized by topic.
 # Each topic is represented by a regular file containing all notes on that topic.
 
+function handle_list_tag {
+	# "If this tag was passed an argument, then...
+	if [ $1 -gt 1 ]; then
+		# List all notes under the given topic
+		cat $JOTPATH/$2
+		# If the given topic has not been created, then print an error
+		if [ $? -ne 0 ]; then
+			echo "-Jot: '$2' is not a topic" 2>&1
+		fi
+		shift
+	else
+		# No argument, so list all topics
+		ls $JOTPATH | sed "s/ /\n/g"
+	fi
+}
 
 # No args case
 if [ $# -eq 0 ]; then
-	echo "-Jot: no-arg functionality not yet implemented" 1>&2
+	echo "-Jot: no-arg functionality not yet implemented" 2>&1
 	exit 0
 fi
 
@@ -17,8 +32,12 @@ note_content=""
 
 while [ $# -gt 0 ]; do
 	case $1 in
+	-l)
+		num_args=$#
+		second_arg=$2
+		handle_list_tag $num_args $second_arg;;
 	-*)
-		echo "-Jot: flag arguments not yet implemented" 1>&2;;
+		echo "-Jot: flag arguments not fully implemented" 2>&1;;
 	*)
 		note_content="${note_content} $1";;
 	esac
