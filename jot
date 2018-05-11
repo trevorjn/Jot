@@ -58,9 +58,8 @@ while [ $# -gt 0 ]; do
 	case $1 in
 	-l)
 		shift # shift out -l option itself
-		num_topics=$#
-		let num_topics=${#note_content[@]}+${num_topics}-1 # account for pre-option topic args
-		topics=$@$note_content
+		topics=$note_content$@
+		num_topics=$(echo $topics | wc -w)
 		handle_list_tag $num_topics "$topics"
 		exit 0;;
 	-*)
